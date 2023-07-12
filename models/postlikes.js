@@ -1,27 +1,26 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Posts extends Model {
+  class PostLikes extends Model {
     static associate(models) {
+      // 1. Posts 모델에서
       this.belongsTo(models.Users, {
-        targetKey: "userId",
-        foreignKey: "userId",
+        // 2. Users 모델에게 N:1 관계 설정을 합니다.
+        targetKey: "userId", // 3. Users 모델의 userId 컬럼을
+        foreignKey: "userId", // 4. Posts 모델의 UserId 컬럼과 연결합니다.
       });
 
-      this.hasMany(models.PostLikes, {
-        sourceKey: "postId",
-        foreignKey: "postId",
-      });
-
-      this.hasMany(models.Comments, {
-        sourceKey: "postId",
-        foreignKey: "postId",
+      // 1. Posts 모델에서
+      this.belongsTo(models.Posts, {
+        // 2. Comments 모델에게 1:N 관계 설정을 합니다.
+        targetKey: "postId", // 3. Posts 모델의 postId 컬럼을
+        foreignKey: "postId", // 4. Comments 모델의 PostId 컬럼과 연결합니다.
       });
     }
   }
-  Posts.init(
+  PostLikes.init(
     {
-      postId: {
+      id: {
         allowNull: false, // NOT NULL
         autoIncrement: true, // AUTO_INCREMENT
         primaryKey: true, // Primary Key (기본키)
@@ -31,18 +30,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false, // NOT NULL
         type: DataTypes.INTEGER,
       },
-      title: {
+      postId: {
         allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
-      },
-      content: {
-        allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
-      },
-      likes: {
-        allowNull: false,
         type: DataTypes.INTEGER,
-        defaultValue: 0,
       },
       createdAt: {
         allowNull: false, // NOT NULL
@@ -57,8 +47,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Posts",
+      modelName: "PostLikes",
     }
   );
-  return Posts;
+  return PostLikes;
 };
