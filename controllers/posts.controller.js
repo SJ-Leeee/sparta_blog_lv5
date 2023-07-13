@@ -11,6 +11,13 @@ class PostsController {
     res.status(200).json({ data: posts });
   };
 
+  getPostDetails = async (req, res, next) => {
+    const { postId } = req.params;
+    const postDetail = await this.postService.findOnePost(postId);
+
+    res.status(200).json({ data: postDetail });
+  };
+
   createPost = async (req, res, next) => {
     const { nickname, password, title, content } = req.body;
 

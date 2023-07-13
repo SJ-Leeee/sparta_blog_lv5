@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Commnets extends Model {
+  class Comments extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Commnets.init(
+  Comments.init(
     {
       commentId: {
         allowNull: false, // NOT NULL
@@ -58,8 +58,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Commnets",
+      modelName: "Comments",
     }
   );
-  return Commnets;
+  return Comments;
 };

@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Commnets", {
+    await queryInterface.createTable("Comments", {
       commentId: {
         allowNull: false, // NOT NULL
         autoIncrement: true, // AUTO_INCREMENT
@@ -43,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Commnets");
+    await queryInterface.dropTable("Comments");
   },
 };

@@ -18,10 +18,24 @@ class PostService {
         postId: post.postId,
         nickname: post.nickname,
         title: post.title,
+        likes: post.likes,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
       };
     });
+  };
+  findOnePost = async (postId) => {
+    const allPost = await this.postRepository.findAllPost();
+    const onePost = allPost.filter((post) => post.postId === postId);
+
+    return {
+      postId: onePost.postId,
+      nickname: onePost.nickname,
+      title: onePost.title,
+      likes: onePost.likes,
+      createdAt: onePost.createdAt,
+      updatedAt: onePost.updatedAt,
+    };
   };
 
   createPost = async (nickname, password, title, content) => {

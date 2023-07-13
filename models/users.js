@@ -1,5 +1,4 @@
 "use strict";
-const Sequelize = require("sequelize");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
@@ -32,23 +31,23 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       nickname: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        updatedAt: {
+          allowNull: false,
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+        },
       },
     },
     {
