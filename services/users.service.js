@@ -1,6 +1,7 @@
 const UserRepository = require("../repositories/users.repository");
+const jwt = require("jsonwebtoken");
 
-class PostService {
+class UserService {
   userRepository = new UserRepository();
 
   createUser = async (nickname, password) => {
@@ -19,6 +20,29 @@ class PostService {
     // console.log(getUsers); 이 때는 dataValues,_previousDataValues 등등 나오는데 response로 하면 데이터만 찍힌다..
     return { code: 200, data: getUsers };
   };
+
+  login = async (nickname, password, confirmpassword) => {
+    if (password !== confirmpassword) {
+      return { code: 400, message: "비밀번호와 확인비밀번호가 다릅니다." };
+    }
+    const checkUser = await this.userRepository.existUser(nickname);
+    if (!checkUser) {
+      return { code: 404, message: "사용자가 존재하지 않습니다." };
+    }
+
+    if (checkUser.password !== password) {
+      return { code: 401, message: "비밀번호가 틀렸습니다" };
+    }
+
+    const token = jwt.sign(
+      {
+        userId: checkUser.userId,
+      },
+      "customized_secret_key"
+    );
+
+    return { token, code: 200, message: "로그인 성공하였습니다." };
+  };
 }
 
-module.exports = PostService;
+module.exports = UserService;

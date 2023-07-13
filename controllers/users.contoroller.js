@@ -21,6 +21,19 @@ class UsersController {
 
     res.status(code).json({ message });
   };
+
+  login = async (req, res, next) => {
+    const { nickname, password, confirmpassword } = req.body; // 바디로 받고
+
+    const { token, code, message } = await this.userService.login(
+      // 3개의 값을 넘겨주고 token, code, message를 받는다
+      nickname,
+      password,
+      confirmpassword
+    );
+    res.cookie("authorization", `Bearer ${token}`); // authorization 이름으로 발급해준 token 값을 쿠키에 넣어준다
+    res.status(code).json({ message });
+  };
 }
 
 module.exports = UsersController;

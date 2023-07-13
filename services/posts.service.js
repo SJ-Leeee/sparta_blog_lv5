@@ -11,51 +11,27 @@ class PostService {
     allPost.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
-
-    // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
-    return allPost.map((post) => {
-      return {
-        postId: post.postId,
-        nickname: post.nickname,
-        title: post.title,
-        likes: post.likes,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-      };
-    });
+    return { code: 200, data: allPost };
   };
   findOnePost = async (postId) => {
-    const allPost = await this.postRepository.findAllPost();
-    const onePost = allPost.filter((post) => post.postId === postId);
+    const onePost = await this.postRepository.findOnePost(postId);
 
     return {
-      postId: onePost.postId,
-      nickname: onePost.nickname,
-      title: onePost.title,
-      likes: onePost.likes,
-      createdAt: onePost.createdAt,
-      updatedAt: onePost.updatedAt,
+      code: 200,
+      data: onePost,
     };
   };
 
-  createPost = async (nickname, password, title, content) => {
+  createPost = async (userId, title, content) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const createPostData = await this.postRepository.createPost(
-      nickname,
-      password,
+      userId,
       title,
       content
     );
 
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
-    return {
-      postId: createPostData.null,
-      nickname: createPostData.nickname,
-      title: createPostData.title,
-      content: createPostData.content,
-      createdAt: createPostData.createdAt,
-      updatedAt: createPostData.updatedAt,
-    };
+    return { code: 200, message: "게시물이 생성되었습니다" };
   };
 }
 
