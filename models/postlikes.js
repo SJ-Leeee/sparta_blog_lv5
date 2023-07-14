@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // 1. Posts 모델에서
       this.belongsTo(models.Posts, {
         // 2. Comments 모델에게 1:N 관계 설정을 합니다.
-        targetKey: "postId", // 3. Posts 모델의 postId 컬럼을
+        sourceKey: "postId", // 3. Posts 모델의 postId 컬럼을
         foreignKey: "postId", // 4. Comments 모델의 PostId 컬럼과 연결합니다.
       });
     }

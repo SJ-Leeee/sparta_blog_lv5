@@ -24,14 +24,92 @@ class PostService {
 
   createPost = async (userId, title, content) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
+    if (title === "" || content === "") {
+      return { code: 400, message: "title, content를 입력해주세요" };
+    }
     const createPostData = await this.postRepository.createPost(
       userId,
       title,
       content
     );
-
-    // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
     return { code: 200, message: "게시물이 생성되었습니다" };
+  };
+
+  modifyPost = async (postId, userId, title, content) => {
+    if (title === "" || content === "") {
+      return { code: 400, message: "title, content를 입력해주세요" };
+    }
+
+    const existPost = await this.postRepository.findOnePost(postId);
+    if (!existPost) {
+      return { code: 404, message: "게시물이 존재하지 않습니다." };
+    }
+    if (existPost.userId !== userId) {
+      return { code: 401, message: "권한이 없습니다." };
+    }
+
+    await this.postRepository.modifyPost(postId, title, content);
+    return { code: 200, message: "게시물이 수정되었습니다." };
+  };
+
+  deletePost = async (postId, userId) => {
+    const existPost = await this.postRepository.findOnePost(postId);
+    if (!existPost) {
+      return { code: 404, message: "게시물이 존재하지 않습니다." };
+    }
+    if (existPost.userId !== userId) {
+      return { code: 401, message: "권한이 없습니다." };
+    }
+
+    await this.postRepository.deletePost(postId);
+    return { code: 200, message: "게시물이 삭제되었습니다." };
+  };
+
+  likePost = async (postId, userId) => {
+    const existPost = await this.postRepository.findOnePost(postId);
+    const existPostLikes = await this.postRepository.findPostLikes(
+      postId,
+      userId
+    );
+
+    // return {
+    //   code: 200,
+    //   message: "여기까진 잘되요",
+    //   data: likes,
+    // };
+    if (!existPost) {
+      return { code: 404, message: "게시물이 존재하지 않습니다." };
+    }
+
+    const likes = existPost.likes;
+
+    if (!existPostLikes) {
+      const likesCount = await this.postRepository.addPostLikes(
+        postId,
+        userId,
+        likes
+      );
+      console.log(typeof postId);
+      console.log(userId);
+
+      return {
+        code: 200,
+        message: "좋아요가 추가 되었습니다.",
+        data: likesCount,
+      };
+    } else {
+      const likesCount = await this.postRepository.deletePostLikes(
+        postId,
+        userId,
+        likes
+      );
+
+      return {
+        code: 200,
+        message: "좋아요가 해제 되었습니다.",
+        data: likesCount,
+      };
+    }
   };
 }
 
