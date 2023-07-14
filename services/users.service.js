@@ -1,5 +1,5 @@
-const UserRepository = require("../repositories/users.repository");
-const jwt = require("jsonwebtoken");
+const UserRepository = require('../repositories/users.repository');
+const jwt = require('jsonwebtoken');
 
 class UserService {
   userRepository = new UserRepository();
@@ -11,7 +11,7 @@ class UserService {
       // return { code: 200, message: `${this.nickname} 계정을 생성하였습니다.` }; 생각해보기
       return { code: 200, message: `계정을 생성하였습니다.` };
     } else {
-      return { code: 409, message: "이미 존재하는 nickname 입니다." };
+      return { code: 409, message: '이미 존재하는 nickname 입니다.' };
     }
   };
 
@@ -23,25 +23,25 @@ class UserService {
 
   login = async (nickname, password, confirmpassword) => {
     if (password !== confirmpassword) {
-      return { code: 400, message: "비밀번호와 확인비밀번호가 다릅니다." };
+      return { code: 400, message: '비밀번호와 확인비밀번호가 다릅니다.' };
     }
     const checkUser = await this.userRepository.existUser(nickname);
     if (!checkUser) {
-      return { code: 404, message: "사용자가 존재하지 않습니다." };
+      return { code: 404, message: '사용자가 존재하지 않습니다.' };
     }
 
     if (checkUser.password !== password) {
-      return { code: 401, message: "비밀번호가 틀렸습니다" };
+      return { code: 401, message: '비밀번호가 틀렸습니다' };
     }
 
     const token = jwt.sign(
       {
         userId: checkUser.userId,
       },
-      "customized_secret_key"
+      'customized_secret_key'
     );
 
-    return { token, code: 200, message: "로그인 성공하였습니다." };
+    return { token, code: 200, message: '로그인 성공하였습니다.' };
   };
 }
 

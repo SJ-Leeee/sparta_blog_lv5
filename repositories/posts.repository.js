@@ -1,14 +1,14 @@
-const { Posts, Users, PostLikes } = require("../models");
+const { Posts, Users, PostLikes } = require('../models');
 
 class PostRepository {
   findAllPost = async () => {
     // ORM인 Sequelize에서 Posts 모델의 findAll 메소드를 사용해 데이터를 요청합니다.
     const posts = await Posts.findAll({
-      attributes: ["postId", "title", "likes", "createdAt", "updatedAt"],
+      attributes: ['postId', 'title', 'likes', 'createdAt', 'updatedAt'],
       include: [
         {
           model: Users,
-          attributes: ["nickname"],
+          attributes: ['nickname'],
         },
       ],
     });
@@ -20,18 +20,18 @@ class PostRepository {
     const posts = await Posts.findOne({
       // 속성을 여기서 해야하나 서비스에서 해야하나..
       attributes: [
-        "postId",
-        "userId",
-        "title",
-        "content",
-        "likes",
-        "createdAt",
-        "updatedAt",
+        'postId',
+        'userId',
+        'title',
+        'content',
+        'likes',
+        'createdAt',
+        'updatedAt',
       ],
       include: [
         {
           model: Users,
-          attributes: ["nickname"],
+          attributes: ['nickname'],
         },
       ],
       where: { postId },

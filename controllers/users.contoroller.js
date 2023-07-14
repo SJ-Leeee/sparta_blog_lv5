@@ -1,4 +1,4 @@
-const UserService = require("../services/users.service");
+const UserService = require('../services/users.service');
 
 // Post의 컨트롤러(Controller)역할을 하는 클래스
 class UsersController {
@@ -31,7 +31,7 @@ class UsersController {
       password,
       confirmpassword
     );
-    res.cookie("authorization", `Bearer ${token}`); // authorization 이름으로 발급해준 token 값을 쿠키에 넣어준다
+    res.cookie('authorization', `Bearer ${token}`); // authorization 이름으로 발급해준 token 값을 쿠키에 넣어준다
     res.status(code).json({ message });
   };
 }

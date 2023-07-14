@@ -1,4 +1,4 @@
-const PostService = require("../services/posts.service");
+const PostService = require('../services/posts.service');
 
 // Post의 컨트롤러(Controller)역할을 하는 클래스
 class PostsController {

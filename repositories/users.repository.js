@@ -1,4 +1,4 @@
-const { Users } = require("../models");
+const { Users } = require('../models');
 
 class UserRepository {
   createUser = async (nickname, password) => {
@@ -19,7 +19,7 @@ class UserRepository {
 
   getUsers = async () => {
     const getUsersData = await Users.findAll({
-      attributes: ["userId", "nickname", "createdAt", "updatedAt"],
+      attributes: ['userId', 'nickname', 'createdAt', 'updatedAt'],
     });
     return getUsersData;
   };
